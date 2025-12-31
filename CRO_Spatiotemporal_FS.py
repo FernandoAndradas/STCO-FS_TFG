@@ -71,25 +71,11 @@ class ml_prediction(AbsObjectiveFunc):
         self.opt = "min" # it can be "max" or "min"
 
         # We set the limits of the vector (window size, time lags and variable selection)
-        self.sup_lim = np.append(np.append(np.repeat(60, pred_dataframe.shape[1]),
-                                np.repeat(180, pred_dataframe.shape[1])),
-                                np.repeat(1, pred_dataframe.shape[1]))  # array where each component indicates the maximum value of the component of the vector
-        self.inf_lim = np.append(np.append(np.repeat(1, pred_dataframe.shape[1]),
-                                np.repeat(0, pred_dataframe.shape[1])),
-                                np.repeat(0, pred_dataframe.shape[1])) # array where each component indicates the minimum value of the component of the vector
+        self.sup_lim = np.append(np.append(np.repeat(60, pred_dataframe.shape[1]),np.repeat(180, pred_dataframe.shape[1])),np.repeat(1, pred_dataframe.shape[1]))  # array where each component indicates the maximum value of the component of the vector
+        self.inf_lim = np.append(np.append(np.repeat(1, pred_dataframe.shape[1]),np.repeat(0, pred_dataframe.shape[1])),np.repeat(0, pred_dataframe.shape[1])) # array where each component indicates the minimum value of the component of the vector
         # we call the constructor of the superclass with the size of the vector
         # and wether we want to maximize or minimize the function 
         super().__init__(self.size, self.opt, self.sup_lim, self.inf_lim)
-        self._log_buffer = []
-        self._flush_every = 50
-        self._eval_count = 0
-
-    def _flush_log(self):
-        if not self._log_buffer:
-            return
-        df = pd.DataFrame(self._log_buffer, columns=['CV','Test','Sol'])
-        df.to_csv(indiv_file,sep=' ', header=False, mode='a', index=None)
-        self._log_buffer.clear()
     
     """
     This will be the objective function, that will recieve a vector and output a number
