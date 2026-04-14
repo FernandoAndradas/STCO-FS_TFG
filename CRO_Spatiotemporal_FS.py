@@ -183,7 +183,7 @@ params = {
     "stop_cond": "Neval",
     "time_limit": 4000.0,
     "Ngen": 10000,
-    "Neval": 15000,
+    "Neval": 200,
     "fit_target": 1000,
 
     "verbose": True,
